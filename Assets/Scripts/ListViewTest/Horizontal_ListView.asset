@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 924663e5b28281a4283ea11e94b4fba4, type: 3}
+  m_Name: Horizontal_ListView
+  m_EditorClassIdentifier: 
+  order: 0
+  viewName: Horizontal_ListView
+  viewLevel: 3
+  viewObjectPrefab: {fileID: 8398815805904559523, guid: 8e5ef8c65b016bc41bf1040fc20c1539, type: 3}
+  transientTime: -1
+  initState: 0
+  forbidOpenOther: 0
+  draggable: 0
+  receiveDragInput: 
+  openTween: 0
+  openDuration: -1
+  closeTween: 0
+  closeDuration: -1
+  isMasterView: 0
+  masterViewName: 
+  rootViewName: 
+  nestedViews: []
+  _scrollDir: 0
+  _loop: 0
+  _viewNum: 3
+  _distance: 320

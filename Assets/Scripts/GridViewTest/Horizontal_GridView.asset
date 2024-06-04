@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3ae830a66371544cae867a8b9af37ed, type: 3}
+  m_Name: Horizontal_GridView
+  m_EditorClassIdentifier: 
+  order: 0
+  viewName: Horizontal_GridView
+  viewLevel: 3
+  viewObjectPrefab: {fileID: 5434221913806699732, guid: 3e495d5da6ec67347b79b9f64f55264f, type: 3}
+  transientTime: -1
+  initState: 0
+  forbidOpenOther: 0
+  draggable: 0
+  receiveDragInput: 
+  openTween: 0
+  openDuration: -1
+  closeTween: 0
+  closeDuration: -1
+  isMasterView: 0
+  masterViewName: 
+  rootViewName: 
+  nestedViews: []
+  scrollDir: 0
+  rows: 7
+  cols: 7
+  x: 120
+  y: -120
