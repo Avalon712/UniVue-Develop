@@ -7,12 +7,16 @@ using UniVue.Utils;
 
 namespace UniVue.View.Views
 {
-    public sealed class ClampListComp : IViewComp
+    [Serializable]
+    public sealed class ClampListWidget : IWidget
     {
         private List<IBindableModel> _models;
+        [SerializeField]
         private Transform _content;
 
-        public ClampListComp(Transform content)
+        public ClampListWidget() { }
+
+        public ClampListWidget(Transform content)
         {
             if (content == null)
                 throw new Exception($"参数content不能为null");

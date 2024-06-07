@@ -1,7 +1,7 @@
 ﻿
 namespace UniVue.ViewModel.Models
 {
-    public enum BindablePropertyType
+    public enum BindableType
     {
         Enum,
 
@@ -31,5 +31,6 @@ namespace UniVue.ViewModel.Models
         /// 不能进行绑定的类型
         /// </summary>
         None,
+
     }
 }

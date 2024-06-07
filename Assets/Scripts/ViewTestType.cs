@@ -1,7 +1,11 @@
 ﻿
-public enum ViewTestType
+namespace UniVueTest
 {
-    Flexible,
-    Scriptable,
-    Mono
+    public enum ViewTestType
+    {
+        Flexible,
+        Scriptable,
+        Mono
+    }
 }
+

@@ -1,18 +1,21 @@
-﻿using TMPro;
+﻿using System;
+using TMPro;
+using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
 namespace UniVue.View.Views
 {
-    public sealed class EnsureTipComp : IViewComp
+    [Serializable]
+    public sealed class EnsureTipWidget : IWidget
     {
-        private string _viewName;
-        private Button _cancelBtn;
-        private Button _sureBtn;
-        private TMP_Text _message;
-        private TMP_Text _title;
+        [SerializeField] private string _viewName;
+        [SerializeField] private Button _cancelBtn;
+        [SerializeField] private Button _sureBtn;
+        [SerializeField] private TMP_Text _message;
+        [SerializeField] private TMP_Text _title;
 
-        public EnsureTipComp(string viewName, Button cancelBtn, Button sureBtn, TMP_Text message, TMP_Text title)
+        public EnsureTipWidget(string viewName, Button cancelBtn, Button sureBtn, TMP_Text message, TMP_Text title)
         {
             if (sureBtn == null)
                 throw new System.Exception($"必须指定确认按钮");

@@ -9,19 +9,28 @@ using UniVue.Utils;
 
 namespace UniVue.View.Views
 {
-    public sealed class GridComp : IViewComp
+    [Serializable]
+    public sealed class GridWidget : IWidget
     {
-        private ScrollRect _scrollRect;         //必须的ScrollRect组件
+        [SerializeField]
         private Direction _scrollDir;           //只能选Vertical（垂直）、Horizontal（水平）
+        [SerializeField]
+        private ScrollRect _scrollRect;         //必须的ScrollRect组件
+        [SerializeField]
         private int _rows;                      //网格可见的视图行数(实际的行数=可见的行数+1)
+        [SerializeField]
         private int _cols;                      //网格可见的视图列数(实际的列数=可见的列数+1)
+        [SerializeField]
         private float _x;                       //leftItemPos.x+x=rightItemPos.x
+        [SerializeField]
         private float _y;                       //upItemPos.y+y=downItemPos.y
         private List<IBindableModel> _models;   //获取绑定的模型数据
         private int _tail;                      //数据尾指针
         private int _head;                      //数据头指针
         private bool _dirty;                    //当前数据是否已经发送修改
         private bool _flag;                     //是否已经生成UIBundle对象
+
+        public GridWidget() { }
 
         /// <summary>
         /// 构建Grid视图组件
@@ -32,7 +41,7 @@ namespace UniVue.View.Views
         /// <param name="x">水平方向上相连两个Item的位置差:  x = rightItemPos.x - leftItemPos.x</param>
         /// <param name="y">垂直方向上相连两个Item的位置差:  y = downItemPos.y - upItemPos.y</param>
         /// <param name="scrollDir">滚动方向</param>
-        public GridComp(ScrollRect scrollRect,int rows,int cols,float x,float y, Direction scrollDir = Direction.Vertical)
+        public GridWidget(ScrollRect scrollRect,int rows,int cols,float x,float y, Direction scrollDir = Direction.Vertical)
         {
             _scrollRect = scrollRect;
             _rows = rows;
@@ -45,6 +54,35 @@ namespace UniVue.View.Views
             scrollRect.vertical = scrollDir == Direction.Vertical;
         }
 
+        /// <summary>
+        /// 获取滚动组件
+        /// </summary>
+        public ScrollRect ScrollRect => _scrollRect;
+
+        /// <summary>
+        /// 获取当前头指针
+        /// </summary>
+        internal int Head => _head;
+
+        /// <summary>
+        /// 获取指定索引的模型
+        /// </summary>
+        internal IBindableModel GetData(int index) => _models[index];
+
+        /// <summary>
+        /// 交换两个数据的顺序
+        /// </summary>
+        internal void SwapData(int index1, int index2)
+        {
+            IBindableModel data1 = _models[index1];
+            _models[index1] = _models[index2];
+            _models[index2] = data1;
+        }
+
+        /// <summary>
+        /// 将指定的索引的数据替换为目标数据
+        /// </summary>
+        internal void Replace(int replacedIndex, IBindableModel newModel) => _models[replacedIndex] = newModel;
 
         /// <summary>
         /// 重新绑定数据
@@ -97,12 +135,12 @@ namespace UniVue.View.Views
 
                 if (_tail < data.Count)
                 {
-                    dynamicView.BindModel(data[_tail++]);
+                    dynamicView.BindModel(_models[_tail++]);
                 }
                 else
                 {
                     //这一步是为了生成UIBundle，以此使用RebindModel()函数
-                    if (data.Count > 0) { dynamicView.BindModel(data[0]); _flag = true; }
+                    if (data.Count > 0) { dynamicView.BindModel(_models[0]); _flag = true; }
                     itemRect.gameObject.SetActive(false);
                 }
             }
@@ -189,21 +227,6 @@ namespace UniVue.View.Views
         {
             _models.Clear();
             Refresh();
-        }
-
-        /// <summary>
-        /// 滚动到指定数据的哪儿
-        /// </summary>
-        public void ScrollTo<T>(T data) where T : IBindableModel
-        {
-            int index = _models.IndexOf(data);
-            //计算出此索引所在的行和列
-            int r = index / _rows;
-            int c = index / _cols;
-            if (index <= _models.Count && index >= 0 && _head != index)
-            {
-
-            }
         }
 
         private void DoRefresh()
@@ -315,6 +338,7 @@ namespace UniVue.View.Views
                     content.GetChild(lastFirst).GetComponent<RectTransform>().GetWorldCorners(corners1);
                     //5.计算可视域的边界
                     _scrollRect.GetComponent<RectTransform>().GetWorldCorners(viewportCorners);
+
                     //监听第一行的第一个以及倒数第二行的第一个
                     if (corners0[0].y > viewportCorners[1].y && _tail > _head)
                     {

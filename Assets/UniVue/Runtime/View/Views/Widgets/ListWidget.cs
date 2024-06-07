@@ -6,15 +6,19 @@ using UniVue.Model;
 using UniVue.Tween;
 using UniVue.Utils;
 using static UnityEngine.UI.ScrollRect;
-using UnityEditor;
 
 namespace UniVue.View.Views
 {
-    public sealed class ListComp : IViewComp
+    [Serializable]
+    public sealed class ListWidget : IWidget
     {
+        [SerializeField]
         private Direction _scrollDir;           //滚动方向
+        [SerializeField]
         private int _viewCount;                 //可见的数量
+        [SerializeField]
         private float _distance;                //相连两个item在滚动方向上的距离
+        [SerializeField]
         private ScrollRect _scrollRect;         //必须的滚动组件
         private Vector3 _deltaPos;              //相连两个Item直接的位置差
         private List<IBindableModel> _models;   //绑定的数据
@@ -54,7 +58,7 @@ namespace UniVue.View.Views
         /// <param name="viewNum">可见数量</param>
         /// <param name="scrollDir">滚动方向</param>
         /// <param name="loop">是否循环滚动</param>
-        public ListComp(ScrollRect scrollRect, float distance,int viewNum, Direction scrollDir = Direction.Vertical, bool loop = false)
+        public ListWidget(ScrollRect scrollRect, float distance,int viewNum, Direction scrollDir = Direction.Vertical, bool loop = false)
         {
             _scrollDir = scrollDir;
             _distance = distance;
@@ -117,12 +121,12 @@ namespace UniVue.View.Views
                 //数据渲染
                 if (_tail < data.Count)
                 {
-                    dynamicView.BindModel(data[_tail++]);
+                    dynamicView.BindModel(_models[_tail++]);
                 }
                 else
                 {
                     //这一步是为了生成UIBundle，以此使用RebindModel()函数
-                    if (data.Count > 0) { dynamicView.BindModel(data[0]); _flag = true; }
+                    if (data.Count > 0) { dynamicView.BindModel(_models[0]); _flag = true; }
                     itemRectTrans.gameObject.SetActive(false);
                 }
             }

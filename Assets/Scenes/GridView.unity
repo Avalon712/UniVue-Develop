@@ -3015,7 +3015,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.001015712}
+  m_AnchoredPosition: {x: 0, y: 0.000021723421}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &6392291903770501933
@@ -3061,11 +3061,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _level: 3
-  _scrollDir: 0
-  rows: 7
-  cols: 7
-  x: 120
-  y: -120
+  _gridComp:
+    _scrollDir: 0
+    _scrollRect: {fileID: 5019629605190911320}
+    _rows: 7
+    _cols: 7
+    _x: 120
+    _y: -120
 --- !u!224 &6406250009921700922
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3728,11 +3730,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _level: 3
-  _scrollDir: 1
-  rows: 7
-  cols: 7
-  x: 120
-  y: -120
+  _gridComp:
+    _scrollDir: 1
+    _scrollRect: {fileID: 7519172146892227591}
+    _rows: 7
+    _cols: 7
+    _x: 120
+    _y: -120
 --- !u!224 &7522846729269457695
 RectTransform:
   m_ObjectHideFlags: 0

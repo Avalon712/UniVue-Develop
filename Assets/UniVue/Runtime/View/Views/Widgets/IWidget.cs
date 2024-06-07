@@ -1,7 +1,7 @@
 ﻿
 namespace UniVue.View.Views
 {
-    public interface IViewComp
+    public interface IWidget
     {
         void Destroy();
     }

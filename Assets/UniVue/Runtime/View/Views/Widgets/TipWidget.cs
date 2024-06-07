@@ -1,22 +1,31 @@
-﻿using TMPro;
+﻿using System;
+using TMPro;
+using UnityEngine;
 
 namespace UniVue.View.Views
 {
-    public sealed class TipComp : IViewComp
+    [Serializable]
+    public sealed class TipWidget : IWidget
     {
         /// <summary>
         /// 获取用于显示提示文本的内容的TMP_Text的UI组件
         /// </summary>
-        public TMP_Text content { get; set; }
+        [SerializeField] private TMP_Text _content;
 
         /// <summary>
         /// 视图名称
         /// </summary>
-        public string name { get; set; }
+        [SerializeField] private string _name;
+
+        public TipWidget(string viewName, TMP_Text content)
+        {
+            _name = viewName;
+            _content = content;
+        }
 
         public void Destroy()
         {
-            content = null;
+            _content = null;
         }
 
         /// <summary>
@@ -26,8 +35,8 @@ namespace UniVue.View.Views
         /// <param name="top">是否显示与顶部</param>
         public void Open(string message, bool top = true)
         {
-            content.text = message;
-            Vue.Router.Open(name, top);
+            _content.text = message;
+            Vue.Router.Open(_name, top);
         }
 
     }

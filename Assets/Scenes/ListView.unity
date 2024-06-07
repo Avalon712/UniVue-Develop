@@ -3552,7 +3552,7 @@ MonoBehaviour:
   _scrollDir: 1
   _distance: 120
   _viewNum: 6
-  _loop: 0
+  _loop: 1
 --- !u!222 &7530176438118080901
 CanvasRenderer:
   m_ObjectHideFlags: 0
