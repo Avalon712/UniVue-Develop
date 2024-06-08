@@ -25,20 +25,16 @@ namespace UniVueTest
         public Button toAnywhereBtn;
         public TMP_InputField numberInput;
 
-        private List<Item> _data;
-        public class Item : IBindableModel
-        {
-            public int Index { get; set; }
-        }
+        private List<AtomModel<int>> _data;
 
         private void Awake()
         {
             Vue.Initialize(new VueConfig());
 
-            _data = new List<Item>(1000);
+            _data = new List<AtomModel<int>>(100);
             for (int i = 0; i < 1000; i++)
             {
-                _data.Add(new Item() { Index = i });
+                _data.Add(AtomModelBuilder.Build("Item", "Index", i));
             }
         }
 
@@ -55,9 +51,9 @@ namespace UniVueTest
             {
                 Comparison<IBindableModel> comparer;
                 if (ascToggle.isOn)
-                    comparer = (item1, item2) => (item1 as Item).Index - (item2 as Item).Index;
+                    comparer = (item1, item2) => (item1 as AtomModel<int>).Value - (item2 as AtomModel<int>).Value;
                 else
-                    comparer = (item1, item2) => (item2 as Item).Index - (item1 as Item).Index;
+                    comparer = (item1, item2) => (item2 as AtomModel<int>).Value - (item1 as AtomModel<int>).Value;
 
                 _vCSGridView?.Sort(comparer);
                 _hCSGridView?.Sort(comparer);
@@ -65,7 +61,7 @@ namespace UniVueTest
 
             addBtn.onClick.AddListener(() =>
             {
-                var newData = new Item() { Index = _data.Count };
+                var newData = AtomModelBuilder.Build("Item", "Index", _data.Count);
                 _data.Add(newData);
                 _vCSGridView?.AddData(newData);
                 _hCSGridView?.AddData(newData);

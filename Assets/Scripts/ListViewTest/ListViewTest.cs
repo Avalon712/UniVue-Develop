@@ -47,7 +47,7 @@ namespace UniVueTest
             _data = new List<AtomModel<int>>(50);
             for (int i = 0; i < 50; i++)
             {
-                _data.Add(new AtomModel<int>("Item", "Index", i));
+                _data.Add(AtomModelBuilder.Build("Item", "Index", i));
             }
         }
 
@@ -100,7 +100,7 @@ namespace UniVueTest
 
             addBtn.onClick.AddListener(() =>
             {
-                var newData = new AtomModel<int>("Item", "Index", _data.Count);
+                var newData = AtomModelBuilder.Build("Item", "Index", _data.Count);
                 _data.Add(newData);
                 switch (testType)
                 {
