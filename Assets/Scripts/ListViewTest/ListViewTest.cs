@@ -23,63 +23,46 @@ namespace UniVueTest
         //采用Flexible方式创建视图
         private FListView _vFListView, _hFListView;
         //采用Scriptable方式创建视图
-        private SListView _vSlistView, _hSListView;
+        private SListView _vSListView, _hSListView;
         //采用Mono方式创建视图
         [SerializeField] private CustomListView _vCListView, _hCListView;
 
         [Header("控制按钮")]
-        public Button toTopLeftBtn;
-        public Button toButtomRightBtn;
         public Button sortBtn;
         public Toggle ascToggle;
         public Button addBtn;
         public Button removeBtn;
         public Button toAnywhereBtn;
         public TMP_InputField numberInput;
+        public TMP_Text _countNum;
 
-        private List<AtomModel<int>> _data;
-
+        private List<AtomModel<int>> _vData;
+        private List<AtomModel<int>> _hData;
 
         private void Awake()
         {
             Vue.Initialize(new VueConfig());
 
-            _data = new List<AtomModel<int>>(50);
-            for (int i = 0; i < 50; i++)
+            _vData = new List<AtomModel<int>>(50);
+            _hData = new List<AtomModel<int>>(50);
+            for (int i = 0; i < 10; i++)
             {
-                _data.Add(AtomModelBuilder.Build("Item", "Index", i));
+                _hData.Add(AtomModelBuilder.Build("Item", "Index", i));
+                _vData.Add(AtomModelBuilder.Build("Item", "Index", i));
             }
+            _countNum.text = _hData.Count.ToString();
         }
 
         // Start is called before the first frame update
         void Start()
         {
-            toTopLeftBtn.onClick.AddListener(() =>
-            {
-                switch (testType)
-                {
-                    case ViewTestType.Flexible:
-                        _hFListView?.Refresh();
-                        _vFListView?.Refresh();
-                        break;
-                    case ViewTestType.Scriptable:
-                        _vSlistView?.Refresh();
-                        _hSListView?.Refresh();
-                        break;
-                    case ViewTestType.Mono:
-                        _vCListView?.Refresh();
-                        _hCListView?.Refresh();
-                        break;
-                }
-            });
-
             sortBtn.onClick.AddListener(() =>
             {
-                Comparison<IBindableModel> comparer;
+                Comparison<AtomModel<int>> comparer;
                 if (ascToggle.isOn)
-                    comparer = (item1, item2) => ((AtomModel<int>)item1).Value - ((AtomModel<int>)item2).Value;
+                    comparer = (item1, item2) => item1.Value - item2.Value;
                 else
-                    comparer = (item1, item2) => ((AtomModel<int>)item2).Value - ((AtomModel<int>)item1).Value;
+                    comparer = (item1, item2) => item2.Value - item1.Value;
 
                 switch (testType)
                 {
@@ -88,7 +71,7 @@ namespace UniVueTest
                         _vFListView?.Sort(comparer);
                         break;
                     case ViewTestType.Scriptable:
-                        _vSlistView?.Sort(comparer);
+                        _vSListView?.Sort(comparer);
                         _hSListView?.Sort(comparer);
                         break;
                     case ViewTestType.Mono:
@@ -100,8 +83,9 @@ namespace UniVueTest
 
             addBtn.onClick.AddListener(() =>
             {
-                var newData = AtomModelBuilder.Build("Item", "Index", _data.Count);
-                _data.Add(newData);
+                var newData = AtomModelBuilder.Build("Item", "Index", _vData.Count);
+                _vData.Add(newData);
+                _hData.Add(newData);
                 switch (testType)
                 {
                     case ViewTestType.Flexible:
@@ -109,7 +93,7 @@ namespace UniVueTest
                         _vFListView?.AddData(newData);
                         break;
                     case ViewTestType.Scriptable:
-                        _vSlistView?.AddData(newData);
+                        _vSListView?.AddData(newData);
                         _hSListView?.AddData(newData);
                         break;
                     case ViewTestType.Mono:
@@ -117,47 +101,51 @@ namespace UniVueTest
                         _hCListView?.AddData(newData);
                         break;
                 }
+                _countNum.text = _hData.Count.ToString();
             });
 
             removeBtn.onClick.AddListener(() =>
             {
-                var remove = _data[_data.Count - 1];
-                _data.Remove(remove);
+                var vRemove = _vData[_vData.Count - 1];
+                var hRemove = _hData[_hData.Count - 1];
+                _vData.Remove(vRemove);
+                _hData.Remove(hRemove);
                 switch (testType)
                 {
                     case ViewTestType.Flexible:
-                        _hFListView?.RemoveData(remove);
-                        _vFListView?.RemoveData(remove);
+                        _hFListView?.RemoveData(hRemove);
+                        _vFListView?.RemoveData(vRemove);
                         break;
                     case ViewTestType.Scriptable:
-                        _vSlistView?.RemoveData(remove);
-                        _hSListView?.RemoveData(remove);
+                        _hSListView?.RemoveData(hRemove);
+                        _vSListView?.RemoveData(vRemove);
                         break;
                     case ViewTestType.Mono:
-                        _hCListView?.RemoveData(remove);
-                        _vCListView?.RemoveData(remove);
+                        _hCListView?.RemoveData(hRemove);
+                        _vCListView?.RemoveData(vRemove);
                         break;
                 }
+                _countNum.text = _hData.Count.ToString();
             });
 
             toAnywhereBtn.onClick.AddListener(() =>
             {
                 int index = int.Parse(numberInput.text);
-                if (0 <= index && index < _data.Count)
+                if (0 <= index && index < _vData.Count)
                 {
                     switch (testType)
                     {
                         case ViewTestType.Flexible:
-                            _hFListView?.ScrollTo(_data[index]);
-                            _vFListView?.ScrollTo(_data[index]);
+                            _hFListView?.ScrollTo(_hData[index]);
+                            _vFListView?.ScrollTo(_vData[index]);
                             break;
                         case ViewTestType.Scriptable:
-                            _vSlistView?.ScrollTo(_data[index]);
-                            _hSListView?.ScrollTo(_data[index]);
+                            _hSListView?.ScrollTo(_hData[index]);
+                            _vSListView?.ScrollTo(_vData[index]);
                             break;
                         case ViewTestType.Mono:
-                            _hCListView?.ScrollTo(_data[index]);
-                            _vCListView?.ScrollTo(_data[index]);
+                            _hCListView?.ScrollTo(_hData[index]);
+                            _vCListView?.ScrollTo(_vData[index]);
                             break;
                     }
                 }
@@ -182,8 +170,8 @@ namespace UniVueTest
                         _hFListView = new FListView(hlistComp, hScroll.gameObject);
 
                         //绑定数据
-                        _hFListView.BindData(_data);
-                        _vFListView.BindData(_data);
+                        _hFListView.BindList(_hData);
+                        _vFListView.BindList(_vData);
                     }
                     break;
                 case ViewTestType.Scriptable:
@@ -191,11 +179,11 @@ namespace UniVueTest
                         ScriptableViewBuilder.Build(GameObject.Find("Canvas"), views);
 
                         _hSListView = Vue.Router.GetView<SListView>(views[0].name);
-                        _vSlistView = Vue.Router.GetView<SListView>(views[1].name);
+                        _vSListView = Vue.Router.GetView<SListView>(views[1].name);
 
                         //绑定数据
-                        _hSListView.BindData(_data);
-                        _vSlistView.BindData(_data);
+                        _hSListView.BindList(_hData);
+                        _vSListView.BindList(_vData);
                     }
                     break;
                 case ViewTestType.Mono:
@@ -203,8 +191,8 @@ namespace UniVueTest
                         _vCListView.OnLoad();
                         _hCListView.OnLoad();
 
-                        _vCListView.BindData(_data);
-                        _hCListView.BindData(_data);
+                        _hCListView.BindList(_hData);
+                        _vCListView.BindList(_vData);
                     }
                     break;
             }

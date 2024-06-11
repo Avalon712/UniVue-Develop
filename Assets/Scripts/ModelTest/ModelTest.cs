@@ -48,7 +48,6 @@ namespace UniVueTest
                 Profession = Profession.Saber
             };
 
-            ((IBindableModel)player).UpdateModel("T", 1);
             view1.BindModel(player, true);
             view.BindModel(player, true); //将玩家数据绑定到控制面板视图上，方便后面修改数据
 

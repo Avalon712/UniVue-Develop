@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UniVue;
@@ -28,14 +27,10 @@ namespace UniVueTest
         [SerializeField] private CustomGridView _vCGridView, _hCGridView;
 
         [Header("控制按钮")]
-        public Button toTopLeftBtn;
-        public Button toButtomRightBtn;
         public Button sortBtn;
         public Toggle ascToggle;
         public Button addBtn;
         public Button removeBtn;
-        public Button toAnywhereBtn;
-        public TMP_InputField numberInput;
 
         private List<AtomModel<int>> _data;
 
@@ -53,26 +48,6 @@ namespace UniVueTest
         // Start is called before the first frame update
         void Start()
         {
-            toTopLeftBtn.onClick.AddListener(() =>
-            {
-                switch (testType)
-                {
-                    case ViewTestType.Flexible:
-                        _hFGridView?.Refresh();
-                        _vFGridView?.Refresh();
-                        break;
-                    case ViewTestType.Scriptable:
-                        _vSGridView?.Refresh();
-                        _hSGridView?.Refresh();
-                        break;
-                    case ViewTestType.Mono:
-
-                        _vCGridView?.Refresh();
-                        _hCGridView?.Refresh();
-                        break;
-                }
-            });
-
             sortBtn.onClick.AddListener(() =>
             {
                 Comparison<IBindableModel> comparer;
@@ -148,15 +123,15 @@ namespace UniVueTest
             {
                 case ViewTestType.Flexible:
                     {
-                        GridWidget vComp = new(vScroll, 7, 7, 120, -120);
+                        GridWidget vComp = new(vScroll, 6, 6, 120, -120);
                         _vFGridView = new FGridView(vComp, vScroll.gameObject);
 
-                        GridWidget hComp = new(hScroll, 7, 7, 120, -120, Direction.Horizontal);
+                        GridWidget hComp = new(hScroll, 6, 6, 120, -120, Direction.Horizontal);
                         _hFGridView = new FGridView(hComp, hScroll.gameObject);
 
                         //绑定数据
-                        _hFGridView.BindData(_data);
-                        _vFGridView.BindData(_data);
+                        _hFGridView.BindList(_data);
+                        _vFGridView.BindList(_data);
                     }
                     break;
                 case ViewTestType.Scriptable:
@@ -167,8 +142,8 @@ namespace UniVueTest
                         _vSGridView = Vue.Router.GetView<SGridView>(views[1].name);
 
                         //绑定数据
-                        _hSGridView.BindData(_data);
-                        _vSGridView.BindData(_data);
+                        _hSGridView.BindList(_data);
+                        _vSGridView.BindList(_data);
                     }
                     break;
                 case ViewTestType.Mono:

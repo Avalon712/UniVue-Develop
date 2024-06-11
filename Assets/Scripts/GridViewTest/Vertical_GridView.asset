@@ -19,8 +19,7 @@ MonoBehaviour:
   transientTime: -1
   initState: 0
   forbidOpenOther: 0
-  draggable: 0
-  receiveDragInput: 
+  _dragInputConfigs: []
   openTween: 0
   openDuration: -1
   closeTween: 0
@@ -30,7 +29,8 @@ MonoBehaviour:
   rootViewName: 
   nestedViews: []
   scrollDir: 1
-  rows: 7
-  cols: 7
+  rows: 6
+  cols: 6
   x: 120
   y: -120
+  _playScrollEffectOnRefresh: 0

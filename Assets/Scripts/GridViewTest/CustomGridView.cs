@@ -24,7 +24,7 @@ namespace UniVueTest
         /// <param name="newData">绑定的新数据，注意必须与旧数据的类型一致！</param>
         public void RebindData<T>(List<T> newData) where T : IBindableModel
         {
-            _gridComp.RebindData(newData);
+            _gridComp.RebindList(newData);
         }
 
         /// <summary>
@@ -33,7 +33,7 @@ namespace UniVueTest
         /// <param name="data">绑定的数据</param>
         public void BindData<T>(List<T> data) where T : IBindableModel
         {
-            _gridComp.BindData(data);
+            _gridComp.BindList(data);
         }
 
         /// <summary>

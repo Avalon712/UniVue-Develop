@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
 using System;
 using UnityEngine;
-using UnityEngine.UI;
 using UniVue.Model;
-using UniVue.Tween;
 using UniVue.View.Views;
 
 namespace UniVueTest
@@ -13,43 +11,27 @@ namespace UniVueTest
     /// </summary>
     public sealed class CustomListView : MonoView
     {
-        [SerializeField] private Direction _scrollDir;
-        [SerializeField] private int _distance;
-        [SerializeField] private int _viewNum;
-        [SerializeField] private bool _loop;
-
-        private ListWidget _listComp;
+        [SerializeField] private ListWidget _listComp;
 
         public override void OnLoad()
         {
-            _listComp = new(GetComponent<ScrollRect>(), _distance, _viewNum, _scrollDir, _loop);
             base.OnLoad();
-        }
-
-        /// <summary>
-        /// 重新绑定数据
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="newData">绑定的新数据，注意必须与旧数据的类型一致！</param>
-        public void RebindData<T>(List<T> newData) where T : IBindableModel
-        {
-            _listComp.RebindData(newData);
         }
 
         /// <summary>
         /// 为Item绑定显示数据
         /// </summary>
         /// <param name="data">绑定的数据</param>
-        public void BindData<T>(List<T> data) where T : IBindableModel
+        public void BindList<T>(List<T> data) where T : IBindableModel
         {
-            _listComp.BindData(data);
+            _listComp.BindList(data);
         }
 
         /// <summary>
         /// 对列表进行排序，排序规则
         /// </summary>
         /// <param name="comparer">排序规则</param>
-        public void Sort(Comparison<IBindableModel> comparer)
+        public void Sort<T>(Comparison<T> comparer) where T : IBindableModel
         {
             _listComp.Sort(comparer);
         }
