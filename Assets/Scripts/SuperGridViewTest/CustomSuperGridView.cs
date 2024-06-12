@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UniVue.Model;
 using UniVue.View.Views;
+using UniVue.View.Widgets;
 
 namespace UniVueTest
 {
 
     public class CustomSuperGridView : MonoView
     {
-        [SerializeField] private SuperGridWidget _superGridWidget;
+        [SerializeField] private SuperGrid _superGridWidget;
 
         public void RebindData<T>(List<T> newData) where T : IBindableModel
         {

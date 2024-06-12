@@ -9,24 +9,24 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e3ae830a66371544cae867a8b9af37ed, type: 3}
+  m_Script: {fileID: 11500000, guid: 26a0009e8464f2c47ab004d45b9f379e, type: 3}
   m_Name: Vertical_GridView
   m_EditorClassIdentifier: 
   order: 0
   viewName: Vertical_GridView
-  viewLevel: 3
+  level: 1
   viewObjectPrefab: {fileID: 7210450092694244625, guid: a8027f7f036b4184c91aa842ae9497dc, type: 3}
   transientTime: -1
   initState: 0
-  forbidOpenOther: 0
+  forbid: 0
   _dragInputConfigs: []
   openTween: 0
   openDuration: -1
   closeTween: 0
   closeDuration: -1
-  isMasterView: 0
-  masterViewName: 
-  rootViewName: 
+  isMaster: 0
+  master: 
+  root: 
   nestedViews: []
   scrollDir: 1
   rows: 6

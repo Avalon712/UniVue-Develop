@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UniVue;
 using UniVue.Model;
-using UniVue.View.Views;
+using UniVue.View.Widgets;
 
 namespace UniVueTest
 {

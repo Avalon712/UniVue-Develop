@@ -3,6 +3,7 @@ using System;
 using UnityEngine;
 using UniVue.Model;
 using UniVue.View.Views;
+using UniVue.View.Widgets;
 
 namespace UniVueTest
 {
@@ -11,7 +12,7 @@ namespace UniVueTest
     /// </summary>
     public sealed class CustomListView : MonoView
     {
-        [SerializeField] private ListWidget _listComp;
+        [SerializeField] private LoopList _listComp;
 
         public override void OnLoad()
         {

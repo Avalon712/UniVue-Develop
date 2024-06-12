@@ -5,6 +5,7 @@ using UniVue.Utils;
 using UniVue.View.Views;
 using UniVue;
 using System;
+using UniVue.View.Widgets;
 
 namespace UniVueTest
 {
@@ -13,8 +14,8 @@ namespace UniVueTest
         public int initDataCount = 0;
 
         //采用Flexible方式创建视图
-        private FGridView _gridView;
-        [SerializeField] private GridWidget gridWidget;
+        private GridView _gridView;
+        [SerializeField] private LoopGrid gridWidget;
 
         [Header("控制按钮")]
         public Button sortBtn;
@@ -74,7 +75,7 @@ namespace UniVueTest
 
         private void CreatView()
         {
-            _gridView = new FGridView(gridWidget, gridWidget.ScrollRect.gameObject);
+            _gridView = new GridView(gridWidget, gridWidget.ScrollRect.gameObject);
         }
     }
 }

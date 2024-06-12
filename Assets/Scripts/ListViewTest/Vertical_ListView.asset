@@ -9,27 +9,28 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 924663e5b28281a4283ea11e94b4fba4, type: 3}
+  m_Script: {fileID: 11500000, guid: eb48fe6528bdf124f9559df181df0b3f, type: 3}
   m_Name: Vertical_ListView
   m_EditorClassIdentifier: 
   order: 0
   viewName: Vertical_ListView
-  viewLevel: 3
+  level: 3
   viewObjectPrefab: {fileID: 2159702903489626171, guid: 4237f1202af54b94d9e686a074bf2d08, type: 3}
   transientTime: -1
   initState: 0
-  forbidOpenOther: 0
-  draggable: 0
-  receiveDragInput: 
+  forbid: 0
+  _dragInputConfigs: []
   openTween: 0
   openDuration: -1
   closeTween: 0
   closeDuration: -1
-  isMasterView: 0
-  masterViewName: 
-  rootViewName: 
+  isMaster: 0
+  master: 
+  root: 
   nestedViews: []
   _scrollDir: 1
   _loop: 0
   _viewNum: 6
   _distance: 120
+  _playScrollEffectOnRefresh: 0
+  _alwaysShowNewestData: 0

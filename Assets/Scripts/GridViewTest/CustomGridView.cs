@@ -5,12 +5,13 @@ using UnityEngine.UI;
 using UniVue.Model;
 using UniVue.Tween;
 using UniVue.View.Views;
+using UniVue.View.Widgets;
 
 namespace UniVueTest
 {
     public class CustomGridView : MonoView
     {
-        [SerializeField] private GridWidget _gridComp;
+        [SerializeField] private LoopGrid _gridComp;
 
         public override void OnLoad()
         {
@@ -22,7 +23,7 @@ namespace UniVueTest
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="newData">绑定的新数据，注意必须与旧数据的类型一致！</param>
-        public void RebindData<T>(List<T> newData) where T : IBindableModel
+        public void RebindList<T>(List<T> newData) where T : IBindableModel
         {
             _gridComp.RebindList(newData);
         }
@@ -31,7 +32,7 @@ namespace UniVueTest
         /// 为Item绑定显示数据
         /// </summary>
         /// <param name="data">绑定的数据</param>
-        public void BindData<T>(List<T> data) where T : IBindableModel
+        public void BindList<T>(List<T> data) where T : IBindableModel
         {
             _gridComp.BindList(data);
         }

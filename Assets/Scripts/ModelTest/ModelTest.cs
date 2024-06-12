@@ -31,10 +31,10 @@ namespace UniVueTest
         private void Start()
         {
 
-            FlexibleView view = new(playerControlView);
-            FlexibleView view1 = new(Player_PlayerInfoView);
-            FlexibleView view2 = new(GroupModel_PlayerInfoView);
-            FlexibleView view3 = new(AtomModel_PlayerInfoView);
+            BaseView view = new(playerControlView);
+            BaseView view1 = new(Player_PlayerInfoView);
+            BaseView view2 = new(GroupModel_PlayerInfoView);
+            BaseView view3 = new(AtomModel_PlayerInfoView);
 
             //使用Player原生模式进行数据绑定
             Player player = new()

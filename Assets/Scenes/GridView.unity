@@ -375,9 +375,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   testType: 2
-  views:
-  - {fileID: 11400000, guid: 665197343b18abc479bf97d1837049fc, type: 2}
+  configs:
   - {fileID: 11400000, guid: 2e4d655c71c1de0499669c52fc6a350d, type: 2}
+  - {fileID: 11400000, guid: 665197343b18abc479bf97d1837049fc, type: 2}
   vScroll: {fileID: 7519172146892227591}
   hScroll: {fileID: 5019629605190911320}
   _vCGridView: {fileID: 7519172146892227592}
@@ -2192,7 +2192,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.00005324571}
+  m_AnchoredPosition: {x: 0, y: 0.00010321313}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &6392291903770501933
@@ -2743,7 +2743,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 5406560432204112168}
   m_HandleRect: {fileID: 637543984913299757}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:

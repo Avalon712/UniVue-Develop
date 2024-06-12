@@ -6,6 +6,7 @@ using UniVue.View.Views;
 using UniVue;
 using System;
 using UniVue.Utils;
+using UniVue.View.Widgets;
 
 namespace UniVueTest
 {
@@ -17,7 +18,7 @@ namespace UniVueTest
         public ScrollRect vScroll;
 
         //采用Flexible方式创建视图
-        private FListView _vFListView;
+        private ListView _vFListView;
 
         [Header("控制按钮")]
         public Button sortBtn;
@@ -88,8 +89,8 @@ namespace UniVueTest
 
         private void CreatView()
         {
-            ListWidget vlistComp = new(vScroll, 120, 6);
-            _vFListView = new FListView(vlistComp, vScroll.gameObject);
+            LoopList vlistComp = new(vScroll, 120, 6);
+            _vFListView = new ListView(vlistComp, vScroll.gameObject);
         }
     }
 }
