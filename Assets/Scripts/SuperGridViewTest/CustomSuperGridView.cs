@@ -10,7 +10,7 @@ namespace UniVueTest
 
     public class CustomSuperGridView : MonoView
     {
-        [SerializeField] private SuperGrid _superGridWidget;
+        private SuperGrid _superGridWidget;
 
         public void RebindData<T>(List<T> newData) where T : IBindableModel
         {

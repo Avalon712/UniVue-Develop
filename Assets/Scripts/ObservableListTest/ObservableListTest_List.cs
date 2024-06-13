@@ -7,6 +7,7 @@ using UniVue;
 using System;
 using UniVue.Utils;
 using UniVue.View.Widgets;
+using UniVue.Tween;
 
 namespace UniVueTest
 {

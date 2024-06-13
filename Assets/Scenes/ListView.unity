@@ -3311,14 +3311,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f091b1a2bdfefb747947d8d0909773cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _level: 0
-  _listComp:
-    _scrollDir: 1
-    _viewCount: 6
-    _distance: 120
-    _scrollRect: {fileID: 7480868147834695181}
-    _playScrollEffectOnRefresh: 0
-    _alwaysShowNewestData: 0
+  _level: 3
+  _scrollDir: 1
+  _viewCount: 6
+  _distance: 120
+  _scrollRect: {fileID: 7480868147834695181}
+  _loop: 0
 --- !u!222 &7530176438118080901
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3832,14 +3830,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f091b1a2bdfefb747947d8d0909773cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _level: 0
-  _listComp:
-    _scrollDir: 0
-    _viewCount: 3
-    _distance: 320
-    _scrollRect: {fileID: 1110767434438318536}
-    _playScrollEffectOnRefresh: 1
-    _alwaysShowNewestData: 1
+  _level: 3
+  _scrollDir: 0
+  _viewCount: 3
+  _distance: 320
+  _scrollRect: {fileID: 1110767434438318536}
+  _loop: 0
 --- !u!224 &8859108506587798795
 RectTransform:
   m_ObjectHideFlags: 0

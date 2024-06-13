@@ -56,7 +56,7 @@ namespace UniVueTest
         // Start is called before the first frame update
         void Start()
         {
-            sortBtn.onClick.AddListener(() =>
+            sortBtn?.onClick.AddListener(() =>
             {
                 Comparison<AtomModel<int>> comparer;
                 if (ascToggle.isOn)
@@ -75,7 +75,7 @@ namespace UniVueTest
                 }
             });
 
-            addBtn.onClick.AddListener(() =>
+            addBtn?.onClick.AddListener(() =>
             {
                 var newData = AtomModelBuilder.Build("Item", "Index", _vData.Count);
                 _vData.Add(newData);
@@ -93,7 +93,7 @@ namespace UniVueTest
                 _countNum.text = _hData.Count.ToString();
             });
 
-            removeBtn.onClick.AddListener(() =>
+            removeBtn?.onClick.AddListener(() =>
             {
                 var vRemove = _vData[_vData.Count - 1];
                 var hRemove = _hData[_hData.Count - 1];
@@ -112,7 +112,7 @@ namespace UniVueTest
                 _countNum.text = _hData.Count.ToString();
             });
 
-            toAnywhereBtn.onClick.AddListener(() =>
+            toAnywhereBtn?.onClick.AddListener(() =>
             {
                 int index = int.Parse(numberInput.text);
                 if (0 <= index && index < _vData.Count)
@@ -168,11 +168,11 @@ namespace UniVueTest
                     break;
                 case ViewTestType.Mono:
                     {
-                        _vCListView.OnLoad();
-                        _hCListView.OnLoad();
+                        _vCListView?.OnLoad();
+                        _hCListView?.OnLoad();
 
-                        _hCListView.BindList(_hData);
-                        _vCListView.BindList(_vData);
+                        _hCListView?.BindList(_hData);
+                        _vCListView?.BindList(_vData);
                     }
                     break;
             }

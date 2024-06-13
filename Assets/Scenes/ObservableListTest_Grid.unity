@@ -374,15 +374,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   initDataCount: 500
-  gridWidget:
-    _scrollDir: 1
-    _scrollRect: {fileID: 7519172146892227591}
-    _rows: 6
-    _cols: 6
-    _x: 120
-    _y: -120
-    _playScrollEffectOnRefresh: 1
-    _renderModelOnScroll: 0
+  _scrollDir: 1
+  _scrollRect: {fileID: 7519172146892227591}
+  _rows: 6
+  _cols: 6
+  _x: 120
+  _y: -120
   sortBtn: {fileID: 4813741137380376080}
   ascToggle: {fileID: 3476127316844150393}
   addBtn: {fileID: 6759519182269938499}

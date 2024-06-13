@@ -6,6 +6,7 @@ using UniVue.View.Views;
 using UniVue;
 using System;
 using UniVue.View.Widgets;
+using UniVue.Tween;
 
 namespace UniVueTest
 {
@@ -13,9 +14,22 @@ namespace UniVueTest
     {
         public int initDataCount = 0;
 
+        [Header("只能选Vertical | Horizontal")]
+        public Direction _scrollDir;
+        [Header("必须的ScrollRect组件")]
+        public ScrollRect _scrollRect;
+        [Header("网格可见的视图行数")]
+        public int _rows;
+        [Header("网格可见的视图列数")]
+        public int _cols;
+        [Header("x=rightItemLocalPos.x - leftItemLocalPos.x")]
+        public float _x;
+        [Header("y=downItemLocalPos.y - upItemLocalPos.y")]
+        public float _y;
+
         //采用Flexible方式创建视图
         private GridView _gridView;
-        [SerializeField] private LoopGrid gridWidget;
+        private LoopGrid gridWidget;
 
         [Header("控制按钮")]
         public Button sortBtn;
@@ -75,6 +89,7 @@ namespace UniVueTest
 
         private void CreatView()
         {
+            gridWidget = new(_scrollRect, _rows, _cols, _x, _y, _scrollDir);
             _gridView = new GridView(gridWidget, gridWidget.ScrollRect.gameObject);
         }
     }
