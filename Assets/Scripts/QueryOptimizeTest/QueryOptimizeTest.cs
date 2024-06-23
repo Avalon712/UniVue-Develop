@@ -18,7 +18,7 @@ namespace UniVueTest
 
         private void Start()
         {
-            Vue.Initialize(new VueConfig());
+            Vue.Initialize(new VueConfig() { OptimizeQuery = true});
 
             List<AtomModel<int>>  data = new List<AtomModel<int>>(1000);
             for (int i = 0; i < 1000; i++)
