@@ -31,7 +31,7 @@ namespace UniVueTest
 
         private void Awake()
         {
-            Vue.Initialize(new VueConfig());
+            Vue.Initialize(VueConfig.Create());
 
             _clampListView = new ClampListView(new ClampList(viewObject.transform), viewObject);
 

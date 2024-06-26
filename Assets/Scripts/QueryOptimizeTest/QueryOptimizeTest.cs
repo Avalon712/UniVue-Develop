@@ -13,7 +13,7 @@ namespace UniVueTest
 
         private void Start()
         {
-            Vue.Initialize(new VueConfig() { OptimizeQuery = true});
+            Vue.Initialize(VueConfig.Create());
 
             ObservableList<AtomModel<int>>  data = new ObservableList<AtomModel<int>>(2000);
             for (int i = 0; i < 2000; i++)

@@ -41,7 +41,7 @@ namespace UniVueTest
 
         private void Awake()
         {
-            Vue.Initialize(new VueConfig());
+            Vue.Initialize(VueConfig.Create());
 
             _vData = new List<AtomModel<int>>(200);
             _hData = new List<AtomModel<int>>(200);

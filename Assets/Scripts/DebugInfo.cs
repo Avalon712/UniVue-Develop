@@ -1,15 +1,22 @@
+using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 using UniVue;
+using UniVue.Tween;
+using UniVue.ViewModel;
 
 namespace UniVueTest
 {
-    [RequireComponent(typeof(Text))]
+    [RequireComponent(typeof(TMP_Text))]
     public class DebugInfo : MonoBehaviour
     {
         void Start()
         {
-            Vue.Debug(GetComponent<Text>());
+            TMP_Text text = GetComponent<TMP_Text>();
+            TweenBehavior.Timer(() =>
+            {
+                VMTable table = Vue.Updater.Table;
+                text.text = $"View: {Vue.Router.ViewCount}\nModel: {table.ModelCount}\nBundle: {table.BundleCount}\nPropertyUI: {table.PropertyUICount}";
+            }).Interval(2).ExecuteNum(int.MaxValue);
         }
     }
 }

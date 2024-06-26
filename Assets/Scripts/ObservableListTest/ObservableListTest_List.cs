@@ -33,7 +33,7 @@ namespace UniVueTest
 
         private void Awake()
         {
-            Vue.Initialize(new VueConfig());
+            Vue.Initialize(VueConfig.Create());
 
             _observer = new(50);
             for (int i = 0; i < 50; i++)
