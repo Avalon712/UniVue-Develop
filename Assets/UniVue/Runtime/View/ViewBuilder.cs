@@ -94,7 +94,7 @@ namespace UniVue.View
         private static void KeepNested(ViewConfig viewConfig)
         {
             ViewConfig[] nestedViews = viewConfig?.nestedViews;
-            if(viewConfig == null || nestedViews==null || nestedViews.Length == 0)
+            if (viewConfig == null || nestedViews == null || nestedViews.Length == 0)
                 return;
 
             BaseView view = Vue.Router.GetView(viewConfig.name) as BaseView;
@@ -111,24 +111,26 @@ namespace UniVue.View
         /// </summary>
         private static void FindNestedViewObject(List<ValueTuple<ViewConfig, GameObject, int>> roots, int level)
         {
+            int before = roots.Count;
             for (int i = 0; i < roots.Count; i++)
             {
-                if (roots[i].Item3 != level) { continue; }
-
-                ViewConfig config = roots[i].Item1;
-                ViewConfig[] nestedViews = config.nestedViews;
-                if (nestedViews != null)
+                if (roots[i].Item3 == level) 
                 {
-                    for (int j = 0; j < nestedViews.Length; j++)
+                    ViewConfig config = roots[i].Item1;
+                    ViewConfig[] nestedViews = config.nestedViews;
+                    if (nestedViews != null)
                     {
-                        GameObject viewObject = GameObjectFindUtil.BreadthFind(nestedViews[j].name, roots[i].Item2);
-                        roots.Add((nestedViews[j], viewObject, level + 1));
-
-                        if (nestedViews[j].nestedViews != null)
-                            FindNestedViewObject(roots, level + 1);
+                        for (int j = 0; j < nestedViews.Length; j++)
+                        {
+                            GameObject viewObject = GameObjectFindUtil.BreadthFind(nestedViews[j].name, roots[i].Item2);
+                            roots.Add((nestedViews[j], viewObject, level + 1));
+                        }
                     }
                 }
             }
+
+            if(before < roots.Count)
+                FindNestedViewObject(roots, level + 1);
         }
 
     }

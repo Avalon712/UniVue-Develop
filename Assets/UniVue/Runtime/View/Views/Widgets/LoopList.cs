@@ -5,7 +5,6 @@ using UnityEngine.UI;
 using UniVue.Model;
 using UniVue.Tween;
 using UniVue.Utils;
-using UniVue.View.Views;
 using UniVue.ViewModel;
 using static UnityEngine.UI.ScrollRect;
 
@@ -395,7 +394,7 @@ namespace UniVue.View.Widgets
                 RectTransform itemRectTrans = _scrollRect.content.GetChild(i).GetComponent<RectTransform>();
                 //数据渲染
                 if (_tail < count)
-                    ViewUtil.Patch3Pass(itemRectTrans.gameObject, this[_tail++]);
+                    Rebind(itemRectTrans.gameObject, this[_tail++]);
                 else
                     itemRectTrans.gameObject.SetActive(false);
             }

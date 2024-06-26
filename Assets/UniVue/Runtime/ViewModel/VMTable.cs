@@ -97,7 +97,7 @@ namespace UniVue.ViewModel
             RemoveBindView(viewName, oldModel);
             AddBindView(viewName, newModel);
 
-            if(_views.TryGetValue(viewName, out List<UIBundle> bundles))
+            if (_views.TryGetValue(viewName, out List<UIBundle> bundles))
             {
                 for (int i = 0; i < bundles.Count; i++)
                 {
@@ -151,7 +151,7 @@ namespace UniVue.ViewModel
         {
             if (_models.TryGetValue(model, out List<string> viewNames) && !viewNames.Contains(viewName))
                 viewNames.Add(viewName);
-            else
+            else if(viewNames == null)
                 _models.Add(model, new List<string>(1) { viewName });
         }
 
