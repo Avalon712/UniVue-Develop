@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UniVue.Model;
 using UniVue.Tween;
+using UniVue.Utils;
 using UniVue.View.Views;
 using UniVue.View.Widgets;
 
@@ -28,12 +29,32 @@ namespace UniVueTest
 
         private void Awake()
         {
-            _gridComp = new(_scrollRect, _rows, _cols, _x, _y, _scrollDir);
+            _gridComp = new LoopGrid(_scrollRect, _rows, _cols, _x, _y, _scrollDir);
         }
 
         public override void OnLoad()
         {
             base.OnLoad();
+        }
+
+        /// <summary>
+        /// 绑定集合
+        /// </summary>
+        /// <remarks>使用这个函数可以防止数据的冗余。同时能够在数据发生变化时自动更新响应变化</remarks>
+        public void BindList(IObservableList observer)
+        {
+            _gridComp.BindList(observer);
+        }
+
+
+        /// <summary>
+        /// 绑定集合
+        /// </summary>
+        /// <remarks>
+        /// 使用这个函数可以防止数据的冗余。同时能够在数据发生变化时自动更新响应变化</remarks>
+        public void RebindList(IObservableList observer)
+        {
+            _gridComp.RebindList(observer);
         }
 
         /// <summary>
