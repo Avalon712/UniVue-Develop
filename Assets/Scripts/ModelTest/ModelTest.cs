@@ -62,49 +62,49 @@ namespace UniVueTest
                  .AddProperty(new EnumProperty<Profession>(group, nameof(player.Profession), player.Profession));
             view2.BindModel(group, true);
 
+            /*
+             * 在UniVue@v1.1.0版本以后使用AtomModel组合的这种方式无法再实现上述功能
+             */
             //使用AtomModel进行数据绑定 --> 如果属性较多不推荐使用这种方式，这儿只是演示AtomModel的使用
-            AtomModel<string> nameAtom = AtomModelBuilder.Build("Player", nameof(player.Name), player.Name);
-            AtomModel<int> levelAtom = AtomModelBuilder.Build("Player", nameof(player.Level), player.Level);
-            AtomModel<int> starsAtom = AtomModelBuilder.Build("Player", nameof(player.Stars), player.Stars);
-            AtomModel<int> expAtom = AtomModelBuilder.Build("Player", nameof(player.Exp), player.Exp);
-            AtomModel<int> hpAtom = AtomModelBuilder.Build("Player", nameof(player.HP), player.HP);
-            AtomModel<Tag> tagAtom = AtomModelBuilder.Build("Player", nameof(player.Tag), player.Tag);
-            AtomModel<Profession> professionAtom = AtomModelBuilder.Build("Player", nameof(player.Profession), player.Profession);
-            view3.BindModel(nameAtom, true)
-                .BindModel(levelAtom, true)
-                .BindModel(starsAtom, true)
-                .BindModel(expAtom, true)
-                .BindModel(hpAtom, true)
-                .BindModel(tagAtom, true)
-                .BindModel(professionAtom, true);
+            //AtomModel<string> nameAtom = AtomModelBuilder.Build("Player", nameof(player.Name), player.Name);
+            //AtomModel<int> levelAtom = AtomModelBuilder.Build("Player", nameof(player.Level), player.Level);
+            //AtomModel<int> starsAtom = AtomModelBuilder.Build("Player", nameof(player.Stars), player.Stars);
+            //AtomModel<int> expAtom = AtomModelBuilder.Build("Player", nameof(player.Exp), player.Exp);
+            //AtomModel<int> hpAtom = AtomModelBuilder.Build("Player", nameof(player.HP), player.HP);
+            //AtomModel<Tag> tagAtom = AtomModelBuilder.Build("Player", nameof(player.Tag), player.Tag);
+            //AtomModel<Profession> professionAtom = AtomModelBuilder.Build("Player", nameof(player.Profession), player.Profession);
+            //view3.BindModel(nameAtom, true)
+            //    .BindModel(levelAtom, true)
+            //    .BindModel(starsAtom, true)
+            //    .BindModel(expAtom, true)
+            //    .BindModel(hpAtom, true)
+            //    .BindModel(tagAtom, true)
+            //    .BindModel(professionAtom, true);
 
-            PropertyChangedListen(player, group, nameAtom, levelAtom, starsAtom, professionAtom);
+            PropertyChangedListen(player, group);
         }
 
-        private void PropertyChangedListen(Player player, GroupModel group, AtomModel<string> nameAtom, AtomModel<int> levelAtom, AtomModel<int> starsAtom, AtomModel<Profession> professionAtom)
+        private void PropertyChangedListen(Player player, GroupModel group)
         {
+
             _nameCtrl.onEndEdit.AddListener(newName =>
             {
                 group.SetPropertyValue(nameof(player.Name), player.Name);
-                nameAtom.Value = player.Name;
             });
 
             _levelCtrl.onValueChanged.AddListener(newLevel =>
             {
                 group.SetPropertyValue(nameof(player.Level), player.Level);
-                levelAtom.Value = player.Level;
             });
 
             _starsCtrl.onValueChanged.AddListener(newStars =>
             {
                 group.SetPropertyValue(nameof(player.Stars), player.Stars);
-                starsAtom.Value = player.Stars;
             });
 
             _professionCtrl.onValueChanged.AddListener(idx =>
             {
                 group.SetPropertyValue(nameof(player.Profession), player.Profession);
-                professionAtom.Value = player.Profession;
             });
         }
 

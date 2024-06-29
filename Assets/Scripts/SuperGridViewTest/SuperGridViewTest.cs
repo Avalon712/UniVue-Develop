@@ -7,7 +7,7 @@ using UniVue.View.Widgets;
 namespace UniVueTest
 {
 
-    public class SuperGridViewTest : MonoBehaviour
+    public sealed class SuperGridViewTest : MonoBehaviour
     {
         //采用Mono方式创建视图
         [SerializeField] private CustomSuperGridView _vCSGridView, _hCSGridView;
