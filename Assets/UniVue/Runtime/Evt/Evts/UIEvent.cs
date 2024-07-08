@@ -19,12 +19,13 @@ namespace UniVue.Evt.Evts
         /// <summary>
         /// 事件参数
         /// </summary>
-        public EventArg[] EventArgs { get; internal set; }
+        public EventArg[] EventArgs { get; private set; }
 
-        public UIEvent(string viewName, string eventName)
+        public UIEvent(string viewName, string eventName, EventArg[] eventArgs)
         {
             ViewName = viewName;
             EventName = eventName;
+            EventArgs = eventArgs;
             //交给EventManger管理
             Vue.Event.AddUIEvent(this);
         }

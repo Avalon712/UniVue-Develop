@@ -34,7 +34,7 @@ namespace UniVueTest
             BaseView view = new(playerControlView);
             BaseView view1 = new(Player_PlayerInfoView);
             BaseView view2 = new(GroupModel_PlayerInfoView);
-            BaseView view3 = new(AtomModel_PlayerInfoView);
+            //BaseView view3 = new(AtomModel_PlayerInfoView);
 
             //使用Player原生模式进行数据绑定
             Player player = new()
@@ -44,7 +44,7 @@ namespace UniVueTest
                 Stars = 2,
                 Exp = 1528,
                 HP = 62,
-                Tag = Tag.Tag3 | Tag.Tag5,
+                Tag = Tag.Tag3 | Tag.Tag1,
                 Profession = Profession.Saber
             };
 
@@ -134,7 +134,6 @@ namespace UniVueTest
         Tag1 = 1,
         Tag2 = 2,
         Tag3 = 4,
-        Tag4 = 8,
-        Tag5 = 16
+        Tag4 = 8
     }
 }
