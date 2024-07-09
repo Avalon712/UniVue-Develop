@@ -30,37 +30,33 @@ namespace UniVue.Rule
             ViewName = viewName;
         }
 
-        public bool Check((Component, UIType) component, List<object> results)
+        public bool Check(ref (Component, UIType) component, List<object> results)
         {
-            if (component.Item2 == UIType.None || component.Item2 == UIType.Image || component.Item2 == UIType.TMP_Text) return false;
-
+            if (component.Item2 == UIType.None) return false;
+            int count = results.Count;
             string uiName = component.Item1.name;
 
-            Match match = Regex.Match(uiName, GetArgRule(out int eventNameIdx, out int argNameIdx));
+            Match match = Regex.Match(uiName, GetEventAndArgRule(out int eventNameIdx, out int argNameIdx));
             if (match.Success)
             {
-                Debug.Log($"EventName={match.Groups[eventNameIdx].Value} ArgName={match.Groups[argNameIdx].Value}");
+                uiName = uiName.Replace(match.Value, string.Empty);
+                results.Add(new EventFilterResult(UIEventFlag.ArgAndEvent, match.Groups[eventNameIdx].Value, match.Groups[argNameIdx].Value, component.Item1, component.Item2));
+            }
+
+            match = Regex.Match(uiName, GetArgRule(out eventNameIdx, out argNameIdx));
+            if (match.Success)
+            {
+                uiName = uiName.Replace(match.Value, string.Empty);
                 results.Add(new EventFilterResult(UIEventFlag.OnlyArg, match.Groups[eventNameIdx].Value, match.Groups[argNameIdx].Value, component.Item1, component.Item2));
-                return true;
             }
 
             match = Regex.Match(uiName, GetEventRule(out eventNameIdx));
             if (match.Success)
             {
-                Debug.Log($"EventName={match.Groups[eventNameIdx].Value}");
                 results.Add(new EventFilterResult(UIEventFlag.OnlyEvent, match.Groups[eventNameIdx].Value, null, component.Item1, component.Item2));
-                return true;
             }
 
-            match = Regex.Match(uiName, GetEventAndArgRule(out eventNameIdx, out argNameIdx));
-            if (match.Success)
-            {
-                Debug.Log($"EventName={match.Groups[eventNameIdx].Value} ArgName={match.Groups[argNameIdx].Value}");
-                results.Add(new EventFilterResult(UIEventFlag.ArgAndEvent, match.Groups[eventNameIdx].Value, match.Groups[argNameIdx].Value, component.Item1, component.Item2));
-                return true;
-            }
-
-            return false;
+            return results.Count - count >= 1;
         }
 
         public void OnComplete(List<object> results)
@@ -76,11 +72,11 @@ namespace UniVue.Rule
         {
             if ((Vue.Config.Format & NamingFormat.UI_Prefix) == NamingFormat.UI_Prefix)
             {
-                eventNameIdx = 1; argNameIdx = 2;
+                eventNameIdx = 0; argNameIdx = 1;
             }
             else
             {
-                eventNameIdx = 2; argNameIdx = 3;
+                eventNameIdx = 1; argNameIdx = 2;
             }
 
             switch (Vue.Config.Format)
@@ -127,7 +123,6 @@ namespace UniVue.Rule
                     return @"Evt(\w{1,})(Slider|Txt|Text|Input|Dropdown|Toggle|Btn|Img|Button|Image)";
                 case NamingFormat.CamelCase | NamingFormat.UI_Prefix:
                     return @"(Slider|Txt|Text|Input|Dropdown|Toggle|Btn|Img|Button|Image)Evt(\w{1,})";
-
                 case NamingFormat.UnderlineLower | NamingFormat.UI_Suffix:
                     return @"evt_(\w{1,})_(slider|txt|text|input|dropdown|toggle|btn|img|button|image)";
                 case NamingFormat.UnderlineLower | NamingFormat.UI_Prefix:

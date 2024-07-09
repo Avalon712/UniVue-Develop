@@ -40,7 +40,7 @@ namespace UniVue.Rule
             ModelName = GetModelName();
         }
 
-        public bool Check((Component, UIType) component, List<object> results)
+        public bool Check(ref (Component, UIType) component, List<object> results)
         {
             switch (_typeFlag)
             {

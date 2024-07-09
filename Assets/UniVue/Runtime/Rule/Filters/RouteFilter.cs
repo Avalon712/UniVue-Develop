@@ -22,7 +22,7 @@ namespace UniVue.Rule
             ViewName = viewName;
         }
 
-        public bool Check((Component, UIType) component, List<object> results)
+        public bool Check(ref (Component, UIType) component, List<object> results)
         {
             if (component.Item2 == UIType.Button || component.Item2 == UIType.Toggle || component.Item2 == UIType.ToggleGroup)
             {
@@ -275,7 +275,7 @@ namespace UniVue.Rule
 
         public void AddRouteListener(UnityAction action)
         {
-            if (UIType == UIType.Toggle)
+            if (UIType == UIType.Toggle || UIType == UIType.ToggleGroup)
             {
                 (Component as Toggle).onValueChanged.AddListener(isOn => { if (isOn) action.Invoke(); });
             }

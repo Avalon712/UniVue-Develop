@@ -113,7 +113,6 @@ namespace UniVue.View
         public void Open(string viewName, bool top = true)
         {
             IView opening = GetView(viewName);
-
             if (opening == null)
             {
 #if UNITY_EDITOR
@@ -189,8 +188,8 @@ namespace UniVue.View
                 }
             }
 
-            //7.将其设置为最后一个子物体，保证被打开的视图能被显示
-            if (top)
+            //7.将其设置为最后一个子物体，保证被打开的视图能被显示，只对根视图有效
+            if (top && string.IsNullOrEmpty(opening.Root))
             {
                 opening.ViewObject.transform.SetAsLastSibling();
             }

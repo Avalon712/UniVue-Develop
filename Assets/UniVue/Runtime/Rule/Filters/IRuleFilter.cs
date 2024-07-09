@@ -19,7 +19,7 @@ namespace UniVue.Rule
         /// <param name="component">待过滤组件，Item1:UI组件 Item2:UI类型</param>
         /// <param name="results">存储过滤结果</param>
         /// <returns>true:符合规则</returns>
-        bool Check(ValueTuple<Component, UIType> component, List<object> results);
+        bool Check(ref ValueTuple<Component, UIType> component, List<object> results);
 
         /// <summary>
         /// 过滤结束

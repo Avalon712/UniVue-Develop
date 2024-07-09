@@ -6,9 +6,6 @@ using UniVue.View.Views;
 
 namespace UniVue.Rule
 {
-    /// <summary>
-    /// 顺序也是固定的：数据绑定 &amp; 视图事件 &amp; 自定义事件绑定
-    /// </summary>
     public sealed class RuleEngine
     {
         private readonly List<object> _results;
@@ -47,7 +44,7 @@ namespace UniVue.Rule
                 while (it.MoveNext())
                 {
                     ValueTuple<Component, UIType> comp = it.Current;
-                    filter.Check(comp, _results);
+                    filter.Check(ref comp, _results);
                 }
             }
             filter.OnComplete(_results);

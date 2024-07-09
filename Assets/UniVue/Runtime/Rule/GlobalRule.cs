@@ -22,7 +22,6 @@ namespace UniVue.Rule
             char SKIP_ALL_DESCENDANT_SYMBOL = Vue.Config.SkipDescendantNodeSeparator;
             char SKIP_CURRENT_SYMBOL = Vue.Config.SkipCurrentNodeSeparator;
 
-            //广度式搜索
             Queue<Transform> queue = new Queue<Transform>();
             Transform root = gameObject.transform;
             ValueTuple<Component, UIType> result = new(null, UIType.None);
@@ -54,11 +53,11 @@ namespace UniVue.Rule
 
             while (queue.Count > 0)
             {
-                Transform transform = queue.Dequeue();
+                Transform parent = queue.Dequeue();
 
-                for (int i = 0; i < transform.childCount; i++)
+                for (int i = 0; i < parent.childCount; i++)
                 {
-                    Transform child = transform.GetChild(i);
+                    Transform child = parent.GetChild(i);
 
                     if (child.name.StartsWith(SKIP_ALL_DESCENDANT_SYMBOL)) { continue; }
 
