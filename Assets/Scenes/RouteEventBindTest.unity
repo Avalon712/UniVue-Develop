@@ -756,7 +756,7 @@ GameObject:
   - component: {fileID: 290439546}
   - component: {fileID: 290439547}
   m_Layer: 5
-  m_Name: Open_TabView2_Toggle
+  m_Name: Open_Tab2View_Toggle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1391,7 +1391,7 @@ GameObject:
   - component: {fileID: 642411863}
   - component: {fileID: 642411862}
   m_Layer: 5
-  m_Name: TabView4
+  m_Name: Tab4View
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2502,7 +2502,7 @@ GameObject:
   - component: {fileID: 1126682896}
   - component: {fileID: 1126682895}
   m_Layer: 5
-  m_Name: TabView3
+  m_Name: Tab3View
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2577,7 +2577,7 @@ GameObject:
   - component: {fileID: 1148973634}
   - component: {fileID: 1148973635}
   m_Layer: 5
-  m_Name: Open_TabView3_Toggle
+  m_Name: Open_Tab3View_Toggle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2663,7 +2663,7 @@ GameObject:
   - component: {fileID: 1182442329}
   - component: {fileID: 1182442330}
   m_Layer: 5
-  m_Name: Open_TabView4_Toggle
+  m_Name: Open_Tab4View_Toggle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3018,7 +3018,7 @@ GameObject:
   - component: {fileID: 1326971392}
   - component: {fileID: 1326971391}
   m_Layer: 5
-  m_Name: TabView1
+  m_Name: Tab1View
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3228,7 +3228,7 @@ GameObject:
   - component: {fileID: 1429471239}
   - component: {fileID: 1429471238}
   m_Layer: 5
-  m_Name: TabView2
+  m_Name: Tab2View
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4001,7 +4001,7 @@ GameObject:
   - component: {fileID: 1822289287}
   - component: {fileID: 1822289288}
   m_Layer: 5
-  m_Name: Open_TabView1_Toggle
+  m_Name: Open_Tab1View_Toggle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

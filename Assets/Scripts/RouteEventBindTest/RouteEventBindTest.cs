@@ -18,26 +18,25 @@ namespace UniVueTest
 
         private void Start()
         {
-            BaseView ctrlView = new BaseView(ctrlViewObj, null, UniVue.View.ViewLevel.Permanent);
+            //手动创建时必须显示调用OnLoad()函数
+
+            BaseView ctrlView = new BaseView(ctrlViewObj, UniVue.View.ViewLevel.Permanent);
             ctrlView.OnLoad();
 
             BaseView commonView = new BaseView(commonViewObj);
-            commonView.OnLoad();    //手动创建时必须显示调用此函数
+            commonView.OnLoad();
 
-            //必须先加载嵌套视图，再加载根视图
-            IView[] nestedViews = new IView[tabViewObjs.Length];
+            BaseView tabParentView = new BaseView(tabViewObj);
+            tabParentView.OnLoad();
+
             for (int i = 0; i < tabViewObjs.Length; i++)
             {
                 //设置为System级别实现"同级互斥"
-                BaseView tabView = new BaseView(tabViewObjs[i], null, UniVue.View.ViewLevel.System);
-                tabView.Root = tabViewObj.name;
+                BaseView tabView = new BaseView(tabViewObjs[i], UniVue.View.ViewLevel.System);
                 tabView.OnLoad();
-                nestedViews[i] = tabView;
+                tabView.Parent = tabParentView.Name;
             }
 
-            BaseView tabRootView = new BaseView(tabViewObj);
-            tabRootView.nestedViews = nestedViews; //设置嵌套关系
-            tabRootView.OnLoad();
         }
     }
 }

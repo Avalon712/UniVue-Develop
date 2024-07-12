@@ -3849,7 +3849,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61384859bf900a5499a6b9fbf7b3d6b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _perPageScrollTime: 1
+  _perPageScrollTime: 0.5
   _intervalTime: 5
   _viewport: {fileID: 8409324404502344723}
   _content: {fileID: 4603336215154234962}
