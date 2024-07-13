@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UniVue.Model;
@@ -12,7 +11,7 @@ namespace UniVue.ViewModel
     /// </summary>
     public sealed class ViewUpdater
     {
-        internal ViewUpdater() {  Table = new VMTable(Vue.Config.TabelSize); }
+        internal ViewUpdater() { Table = new VMTable(Vue.Config.TabelSize); }
 
         /// <summary>
         /// 当前发布更新UI通知消息的属性UI，在进行UI更新时将会排除此UI

@@ -15,12 +15,12 @@ namespace UniVue.Utils
         public static bool IsEnumOrListEnum(BindableType bindType, Type type, out bool isFlagsEnum)
         {
             isFlagsEnum = false;
-            if(bindType == BindableType.Enum)
+            if (bindType == BindableType.Enum)
             {
                 isFlagsEnum = HasFlags(type);
                 return true;
             }
-            else if(bindType == BindableType.ListEnum)
+            else if (bindType == BindableType.ListEnum)
             {
                 isFlagsEnum = HasFlags(type.GetGenericArguments()[0]);
                 return true;

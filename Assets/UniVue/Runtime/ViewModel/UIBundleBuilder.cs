@@ -49,7 +49,7 @@ namespace UniVue.ViewModel
 
                 BuildPropertyUI_Sprite_Image(propertyUIs, ref result, allowUIUpdateModel);
             }
-            
+
             return propertyUIs.Count == 0 ? null : new UIBundle(model, propertyUIs);
         }
 

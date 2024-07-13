@@ -9,6 +9,7 @@ using UniVue.Evt;
 using UniVue.Evt.Evts;
 using UniVue.Model;
 using UniVue.Utils;
+using UniVue.View.Views;
 using UniVue.ViewModel;
 using UniVue.ViewModel.Models;
 
@@ -22,14 +23,13 @@ namespace UniVue.Editor
         private Dictionary<string, List<UIBundle>> _views;
         private List<UIEvent> _events;
         private List<EventCall> _calls;
-        private List<AutowireInfo> _autowires;
-        private List<IEntityMapper> _mappers;
 
         private DebugContent _debugContent;
         private IBindableModel _currentDrawModel;
         private List<PropertyRecorder> _values;
         private List<IBindableModel> _models;
         private Dictionary<object, bool> _foldouts;
+        private Dictionary<EventArg, object> _eventArgsValues;
         private bool _rebuildModels = true;
 
         private Vector2 _pos;
@@ -38,18 +38,23 @@ namespace UniVue.Editor
 
         private const int TIME = 100;
         private int _timer = TIME;
+        private Vector2 _pos4;
+        private Vector2 _pos5;
+        private Vector2 _pos6;
+        private Vector2 _pos7;
         #endregion
 
         [MenuItem("UniVue/RuntimeDebuger")]
         public static void OpenEditorWindow()
         {
             var window = GetWindow<RuntimeDebugerWindow>("UniVue运行时调试器");
-            
+
             window.position = new Rect(320, 240, 930, 500);
             window._values = new List<PropertyRecorder>();
             window._models = new List<IBindableModel>();
             window._foldouts = new Dictionary<object, bool>();
             window._refresh_icon = EditorGUIUtility.IconContent("d_Refresh");
+            window._eventArgsValues = new Dictionary<EventArg, object>();
 
             EditorApplication.playModeStateChanged += (mode) =>
             {
@@ -68,7 +73,7 @@ namespace UniVue.Editor
 
         private void GetRuntimeData()
         {
-            if(_timer >= TIME)
+            if (_timer >= TIME)
             {
                 _timer = 0;
 
@@ -78,8 +83,6 @@ namespace UniVue.Editor
 
                 EventManager eventManager = Vue.Event;
                 _calls = eventManager.GetType().GetField("_calls", flags).GetValue(eventManager) as List<EventCall>;
-                _autowires = eventManager.GetType().GetField("_autowires", flags).GetValue(eventManager) as List<AutowireInfo>;
-                _mappers = eventManager.GetType().GetField("_mappers", flags).GetValue(eventManager) as List<IEntityMapper>;
                 _events = eventManager.GetType().GetField("_events", flags).GetValue(eventManager) as List<UIEvent>;
             }
             _timer++;
@@ -97,7 +100,7 @@ namespace UniVue.Editor
         private void Draw_TopStates()
         {
             string info = $"Views: {Vue.Router.ViewCount}     UIBundles: {Vue.Updater.Table.BundleCount}     PropertyUIs: {Vue.Updater.Table.PropertyUICount}     UpdateCache-Models: {Vue.Updater.Table.UpdateCacheModelCount}     Realtime-Models: {_models.Count}";
-            GUILayout.Label(info); 
+            GUILayout.Label(info);
         }
 
         private void Draw_TopToolbar()
@@ -110,6 +113,10 @@ namespace UniVue.Editor
             if (GUILayout.Button("Debug - 事件绑定"))
             {
                 _debugContent = DebugContent.Event;
+            }
+            if (GUILayout.Button("Debug - 视图Viewer"))
+            {
+                _debugContent = DebugContent.View;
             }
             GUILayout.EndHorizontal();
             Draw_Horizontal_Line(Color.black);
@@ -124,6 +131,9 @@ namespace UniVue.Editor
                     break;
                 case DebugContent.Event:
                     Draw_DebugContent_Event();
+                    break;
+                case DebugContent.View:
+                    Draw_DebugContent_View();
                     break;
             }
         }
@@ -205,7 +215,7 @@ namespace UniVue.Editor
 
         private void Draw_Model_Properties()
         {
-            if(_values.Count == 0)
+            if (_values.Count == 0)
             {
                 using (var it = GetProperties().GetEnumerator())
                 {
@@ -309,7 +319,7 @@ namespace UniVue.Editor
             GUILayout.BeginHorizontal();
             GUILayout.Label("PropertyValue: ");
             object propertyValue = record.PropertyValue;
-            if(!ReflectionUtil.HasFlags(record.Property.PropertyType))
+            if (!ReflectionUtil.HasFlags(record.Property.PropertyType))
                 record.PropertyValue = EditorGUILayout.EnumPopup((Enum)propertyValue);
             else
                 record.PropertyValue = EditorGUILayout.EnumFlagsField((Enum)propertyValue);
@@ -331,7 +341,7 @@ namespace UniVue.Editor
             GUILayout.BeginHorizontal();
             GUILayout.Label("PropertyValue: ");
             string propertyValue = record.PropertyValue as string;
-            record.PropertyValue = EditorGUILayout.TextField(propertyValue); 
+            record.PropertyValue = EditorGUILayout.TextField(propertyValue);
             if (GUILayout.Button(_refresh_icon))
             {
                 record.PropertyValue = record.GetPropertyNewestValue();
@@ -350,7 +360,7 @@ namespace UniVue.Editor
             GUILayout.BeginHorizontal();
             GUILayout.Label("PropertyValue: ");
             bool propertyValue = (bool)record.PropertyValue;
-            record.PropertyValue = EditorGUILayout.Toggle(propertyValue); 
+            record.PropertyValue = EditorGUILayout.Toggle(propertyValue);
             if (GUILayout.Button(_refresh_icon))
             {
                 record.PropertyValue = record.GetPropertyNewestValue();
@@ -394,7 +404,7 @@ namespace UniVue.Editor
                 propertyValue[i] = EditorGUILayout.IntField(propertyValue[i]);
                 if (GUILayout.Button("Delete"))
                 {
-                    propertyValue.RemoveAt(i); 
+                    propertyValue.RemoveAt(i);
                 }
                 GUILayout.EndHorizontal();
             }
@@ -431,7 +441,7 @@ namespace UniVue.Editor
                 GUILayout.EndHorizontal();
             }
 
-            GUILayout.BeginHorizontal(); 
+            GUILayout.BeginHorizontal();
             float v = (float)record.Temp;
             record.Temp = EditorGUILayout.FloatField(v);
             if (GUILayout.Button("Add"))
@@ -482,7 +492,7 @@ namespace UniVue.Editor
             Type enumType = record.Property.PropertyType.GetGenericArguments()[0];
             GUILayout.Label($"PropertyName: 【{record.PropertyName}】");
             GUILayout.Label($"PropertyType: 【List<{enumType.Name}>】");
-            
+
             object propertyValue = record.PropertyValue;
             if (propertyValue == null) return;
 
@@ -490,7 +500,7 @@ namespace UniVue.Editor
             int count = (int)type.GetProperty("Count").GetValue(propertyValue);
             bool isFlagsEnum = ReflectionUtil.HasFlags(enumType);
 
-            PropertyInfo accessor =  type.GetProperty("Item", BindingFlags.Public | BindingFlags.Instance);
+            PropertyInfo accessor = type.GetProperty("Item", BindingFlags.Public | BindingFlags.Instance);
             for (int i = 0; i < count; i++)
             {
                 object[] args = new object[1] { i };
@@ -529,7 +539,7 @@ namespace UniVue.Editor
         {
             GUILayout.Label($"PropertyName: 【{record.PropertyName}】");
             GUILayout.Label("PropertyType: 【List<Sprite>】");
-            List<Sprite> propertyValue = record.PropertyValue as List<Sprite>; 
+            List<Sprite> propertyValue = record.PropertyValue as List<Sprite>;
             if (propertyValue == null) return;
             for (int i = 0; i < propertyValue.Count; i++)
             {
@@ -656,10 +666,245 @@ namespace UniVue.Editor
 
         #endregion
 
+        #region 绘制事件绑定
         private void Draw_DebugContent_Event()
         {
+            GUILayout.BeginHorizontal();
 
+            GUILayout.BeginVertical(GUILayout.Width(460));
+            GUILayout.Label($"UIEvents [count={_events.Count}]");
+            _pos4 = GUILayout.BeginScrollView(_pos4);
+            Draw_UIEvents();
+            GUILayout.EndScrollView();
+            GUILayout.EndVertical();
+
+            GUILayout.Box(string.Empty, GUILayout.Width(5), GUILayout.ExpandHeight(true));
+
+            GUILayout.BeginVertical(GUILayout.Width(460));
+            GUILayout.Label($"EventCalls [count={_calls.Count}]");
+            _pos5 = GUILayout.BeginScrollView(_pos5);
+            Draw_EventCalls();
+            GUILayout.EndScrollView();
+            GUILayout.EndVertical();
+
+            GUILayout.EndHorizontal();
         }
+
+        private void Draw_UIEvents()
+        {
+            for (int i = 0; i < _events.Count; i++)
+            {
+                Draw_UIEvent(_events[i]);
+            }
+            Draw_Horizontal_Line(Color.white);
+        }
+
+        private void Draw_UIEvent(UIEvent @event)
+        {
+            _foldouts.TryAdd(@event, false);
+            Draw_Horizontal_Line(Color.white);
+            _foldouts[@event] = EditorGUILayout.Foldout(_foldouts[@event], $"{@event.ViewName} - {@event.EventName}");
+            if (_foldouts[@event])
+            {
+                GUILayout.BeginHorizontal();
+                if (GUILayout.Button("当前视图下触发此事件"))
+                {
+                    Vue.Event.ExecuteEvent(@event);
+                }
+                if (GUILayout.Button("全局触发此事件"))
+                {
+                    Vue.Event.TriggerUIEvent(@event.EventName, null);
+                }
+                GUILayout.EndHorizontal();
+                Draw_Horizontal_Line(Color.black);
+                for (int i = 0; i < @event.EventArgs.Length; i++)
+                {
+                    Draw_EventArg(@event.EventArgs[i]);
+                    Draw_Horizontal_Line(Color.black);
+                }
+            }
+        }
+
+        private void Draw_EventArg(EventArg eventArg)
+        {
+            GUILayout.Label($"ArgumentName: 【{eventArg.ArgumentName}】");
+            GUILayout.BeginHorizontal();
+            switch (eventArg.UIType)
+            {
+                case UIType.Image:
+                    EditorGUILayout.ObjectField(eventArg.GetUI<Image>(), typeof(Image), true);
+                    break;
+                case UIType.TMP_Dropdown:
+                    EditorGUILayout.ObjectField(eventArg.GetUI<TMP_Dropdown>(), typeof(TMP_Dropdown), true);
+                    break;
+                case UIType.TMP_Text:
+                    EditorGUILayout.ObjectField(eventArg.GetUI<TMP_Text>(), typeof(TMP_Text), true);
+                    break;
+                case UIType.TMP_InputField:
+                    EditorGUILayout.ObjectField(eventArg.GetUI<TMP_InputField>(), typeof(TMP_InputField), true);
+                    break;
+                case UIType.Toggle:
+                case UIType.ToggleGroup:
+                    EditorGUILayout.ObjectField(eventArg.GetUI<Toggle>(), typeof(Toggle), true);
+                    break;
+                case UIType.Slider:
+                    EditorGUILayout.ObjectField(eventArg.GetUI<Slider>(), typeof(Slider), true);
+                    break;
+            }
+            GUILayout.Label(GetUIValue(eventArg.GetUI<Component>()) as string);
+            GUILayout.EndHorizontal();
+
+            GUILayout.BeginHorizontal();
+            switch (eventArg.UIType)
+            {
+                case UIType.Image:
+                    _eventArgsValues.TryAdd(eventArg, null);
+                    _eventArgsValues[eventArg] = EditorGUILayout.ObjectField(_eventArgsValues[eventArg] as Sprite, typeof(Image), true);
+                    break;
+                case UIType.TMP_Dropdown:
+                    _eventArgsValues.TryAdd(eventArg, string.Empty);
+                    _eventArgsValues[eventArg] = EditorGUILayout.TextField((string)_eventArgsValues[eventArg]);
+                    break;
+                case UIType.TMP_Text:
+                    _eventArgsValues.TryAdd(eventArg, string.Empty);
+                    _eventArgsValues[eventArg] = EditorGUILayout.TextField(_eventArgsValues[eventArg] as string);
+                    break;
+                case UIType.TMP_InputField:
+                    _eventArgsValues.TryAdd(eventArg, string.Empty);
+                    _eventArgsValues[eventArg] = EditorGUILayout.TextField(_eventArgsValues[eventArg] as string);
+                    break;
+                case UIType.Toggle:
+                case UIType.ToggleGroup:
+                    _eventArgsValues.TryAdd(eventArg, false);
+                    _eventArgsValues[eventArg] = EditorGUILayout.Toggle((bool)_eventArgsValues[eventArg]);
+                    break;
+                case UIType.Slider:
+                    _eventArgsValues.TryAdd(eventArg, 1f);
+                    _eventArgsValues[eventArg] = EditorGUILayout.FloatField((float)_eventArgsValues[eventArg]);
+                    break;
+            }
+            if (GUILayout.Button("SetValue"))
+            {
+                if (_eventArgsValues[eventArg] != null)
+                    eventArg.SetArgumentValue(_eventArgsValues[eventArg]);
+            }
+            GUILayout.EndHorizontal();
+        }
+
+        private void Draw_EventCalls()
+        {
+            for (int i = 0; i < _calls.Count; i++)
+            {
+                Draw_EventCall(_calls[i]);
+                Draw_Horizontal_Line(Color.white);
+            }
+        }
+
+        private void Draw_EventCall(EventCall call)
+        {
+            _foldouts.TryAdd(call, false);
+            _foldouts[call] = EditorGUILayout.Foldout(_foldouts[call], $"{call.Method.DeclaringType.FullName}.{call.Method.Name}() - {call.CallInfo.EventName}");
+            if (_foldouts[call])
+            {
+                GUILayout.Label($"EventName: 【{call.CallInfo.EventName}】");
+                GUILayout.Label($"ViewNames: 【{(call.CallInfo.Views == null ? string.Empty : string.Join(", ", call.CallInfo.Views))}】");
+                GUILayout.Label($"Class: 【{call.Method.DeclaringType.FullName}】");
+                GUILayout.Label($"MethodName: 【{call.Method.Name}】");
+                ParameterInfo[] parameters = call.Method.GetParameters();
+                if (parameters != null && parameters.Length > 0)
+                {
+                    Draw_Horizontal_Line(Color.black);
+                    for (int i = 0; i < parameters.Length; i++)
+                    {
+                        GUILayout.Label($"Arg[{i}]: Name={parameters[i].Name} Type={parameters[i].ParameterType.Name}");
+                        Draw_Horizontal_Line(Color.black);
+                    }
+                }
+                if (GUILayout.Button("Call"))
+                {
+                    Vue.Event.TriggerUIEvent(call.CallInfo.EventName, call.CallInfo.Views);
+                }
+            }
+        }
+
+        #endregion
+
+        #region 绘制视图
+
+        private void Draw_DebugContent_View()
+        {
+            GUILayout.BeginHorizontal();
+
+            GUILayout.BeginVertical(GUILayout.Width(460));
+            GUILayout.Label($"Views [count={Vue.Router.ViewCount}]");
+            Dictionary<string, IView> views = (Dictionary<string, IView>)Vue.Router.GetType().GetField("_views", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(Vue.Router);
+            _pos6 = GUILayout.BeginScrollView(_pos6);
+            foreach (var view in views.Values)
+            {
+                Draw_View(views, view);
+                Draw_Horizontal_Line(Color.white);
+            }
+            GUILayout.EndScrollView();
+            GUILayout.EndVertical();
+
+            GUILayout.Box(string.Empty, GUILayout.Width(5), GUILayout.ExpandHeight(true));
+
+            GUILayout.BeginVertical(GUILayout.Width(460));
+            List<string> histories = (List<string>)Vue.Router.GetType().GetField("_histories", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(Vue.Router);
+            GUILayout.Label($"Histories [count={histories.Count} MaxHistories={histories.Capacity}]");
+            _pos7 = GUILayout.BeginScrollView(_pos7);
+            Draw_Histories(views, histories);
+            GUILayout.EndScrollView();
+            GUILayout.EndVertical();
+
+            GUILayout.EndHorizontal();
+        }
+
+        private void Draw_View(Dictionary<string, IView> views, IView view)
+        {
+            _foldouts.TryAdd(view, false);
+            _foldouts[view] = EditorGUILayout.Foldout(_foldouts[view], view.Name);
+            if (_foldouts[view])
+            {
+                GUILayout.Label($"ViewName: 【{view.Name}】");
+                GUILayout.Label($"ViewLevel: 【{view.Level}】");
+                GUILayout.Label($"State: 【{(view.State ? "打开" : "关闭")}】");
+                GUILayout.BeginHorizontal();
+                GUILayout.Label("ViewObject");
+                EditorGUILayout.ObjectField(view.ViewObject, typeof(GameObject), true);
+                GUILayout.EndHorizontal();
+                GUILayout.Label($"ParentView: 【{view.Parent}】");
+                if (!string.IsNullOrEmpty(view.Parent))
+                {
+                    GUILayout.BeginHorizontal();
+                    GUILayout.Label("Parent ViewObject");
+                    EditorGUILayout.ObjectField(views[view.Parent].ViewObject, typeof(GameObject), true);
+                    GUILayout.EndHorizontal();
+                }
+                GUILayout.BeginHorizontal();
+                if (GUILayout.Button("Open"))
+                {
+                    view.Open();
+                }
+                if (GUILayout.Button("Close"))
+                {
+                    view.Close();
+                }
+                GUILayout.EndHorizontal();
+            }
+        }
+
+        private void Draw_Histories(Dictionary<string, IView> views, List<string> histories)
+        {
+            Draw_Horizontal_Line(Color.black);
+            for (int i = histories.Count - 1; i >= 0; i--)
+            {
+                GUILayout.Label($"[{histories.Count - i - 1}] - {histories[i]} - {(views[histories[i]].State ? "Opened" : "Closed")}");
+                Draw_Horizontal_Line(Color.black);
+            }
+        }
+
+        #endregion
 
         #region 工具函数
 
@@ -712,7 +957,7 @@ namespace UniVue.Editor
                         string propertyName = modelType.GetProperty("PropertyName", BindingFlags.Instance | BindingFlags.Public).GetValue(_currentDrawModel) as string;
                         BindableType bindType = ReflectionUtil.GetBindableType(propertyInfo.PropertyType);
                         if (bindType != BindableType.None)
-                            yield return new PropertyRecorder(bindType,_currentDrawModel, propertyName, propertyInfo, propertyInfo.GetValue(_currentDrawModel));
+                            yield return new PropertyRecorder(bindType, _currentDrawModel, propertyName, propertyInfo, propertyInfo.GetValue(_currentDrawModel));
                     }
                     break;
                 case 2:
@@ -725,7 +970,7 @@ namespace UniVue.Editor
                             Type pType = properties[i].GetType();
                             string propertyName = pType.GetProperty("PropertyName", flags).GetValue(properties[i]) as string;
                             PropertyInfo propertyInfo = pType.GetProperty("Value", flags);
-                            BindableType bindType = ReflectionUtil.GetBindableType(propertyInfo.PropertyType); 
+                            BindableType bindType = ReflectionUtil.GetBindableType(propertyInfo.PropertyType);
                             if (bindType != BindableType.None)
                                 yield return new PropertyRecorder(bindType, properties[i], propertyName, propertyInfo, propertyInfo.GetValue(properties[i]));
                         }
@@ -859,6 +1104,7 @@ namespace UniVue.Editor
     {
         None,
         Model,
-        Event
+        Event,
+        View,
     }
 }
