@@ -25,6 +25,11 @@ namespace UniVueTest
         private bool flag;
         public GameObject playerInfoViewObj;        //原生模型测试
         public GameObject playerControlViewObj;            //修改玩家属性的视图
+        public GameObject playerListIntViewObj;
+        public GameObject playerListFloatViewObj;
+        public GameObject playerListStringViewObj;
+        public GameObject playerListEnumViewObj;
+        public GameObject playerListFlagsEnumViewObj;
 
         private void Awake()
         {
@@ -41,33 +46,61 @@ namespace UniVueTest
                 Exp = 1528,
                 HP = 62,
                 Tag = Tag.Tag3 | Tag.Tag1,
-                Profession = Profession.Saber
+                Profession = Profession.Saber,
+                Ints = new List<int>() { 1, 2, 3, 4, 5, 6, 7 },
+                Floats = new List<float>() { 1, 2, 3, 4, 5, 6 },
+                Strings = new List<string>() { "Test A", "Test B", "Test C", "Test D", "Test E", "Test F" },
+                Professions = new List<Profession>()
+                {
+                    Profession.Rider,
+                    Profession.Saber,
+                    Profession.Archer,
+                    Profession.Saber,
+                    Profession.Archer,
+                    Profession.Saber
+                },
+                Tags = new List<Tag>()
+                {
+                    Tag.Tag1|Tag.Tag2,
+                    Tag.Tag2,
+                    Tag.Tag4,
+                    Tag.Tag2|Tag.Tag4
+                }
             };
 
-            //CustomModelBindTest(player);
+            //BindModelToViews(player);
             GroupModelBindTest(player);
         }
 
-        private void CustomModelBindTest(Player player)
+        private void BindModelToViews(IBindableModel model)
         {
-            BuildUIBundle(player, playerInfoViewObj);
-            BuildUIBundle(player, playerControlViewObj);
+            BuildUIBundle(model, playerInfoViewObj);
+            BuildUIBundle(model, playerControlViewObj);
+            BuildUIBundle(model, playerListEnumViewObj);
+            BuildUIBundle(model, playerListStringViewObj);
+            BuildUIBundle(model, playerListIntViewObj);
+            BuildUIBundle(model, playerListFloatViewObj);
+            BuildUIBundle(model, playerListFlagsEnumViewObj);
         }
 
         private void GroupModelBindTest(Player player)
         {
             //使用GroupModel进行数据绑定
-            GroupModel group = new("Player", 7);
+            GroupModel group = new GroupModel(nameof(Player), 7);
             group.AddProperty(new StringProperty(group, nameof(player.Name), player.Name))
                  .AddProperty(new IntProperty(group, nameof(player.Level), player.Level))
                  .AddProperty(new IntProperty(group, nameof(player.Stars), player.Stars))
                  .AddProperty(new IntProperty(group, nameof(player.Exp), player.Exp))
                  .AddProperty(new IntProperty(group, nameof(player.HP), player.HP))
                  .AddProperty(new EnumProperty<Tag>(group, nameof(player.Tag), player.Tag))
-                 .AddProperty(new EnumProperty<Profession>(group, nameof(player.Profession), player.Profession));
+                 .AddProperty(new EnumProperty<Profession>(group, nameof(player.Profession), player.Profession))
+                 .AddProperty(new ListIntProperty(group, nameof(player.Ints), player.Ints))
+                 .AddProperty(new ListFloatProperty(group, nameof(player.Floats), player.Floats))
+                 .AddProperty(new ListEnumProperty<Profession>(group, nameof(player.Professions), player.Professions))
+                 .AddProperty(new ListStringProperty(group, nameof(player.Strings), player.Strings))
+                 .AddProperty(new ListEnumProperty<Tag>(group, nameof(player.Tags), player.Tags));
 
-            BuildUIBundle(group, playerInfoViewObj);
-            BuildUIBundle(group, playerControlViewObj);
+            BindModelToViews(group);
         }
 
         private void BuildUIBundle(IBindableModel model, GameObject viewObj)

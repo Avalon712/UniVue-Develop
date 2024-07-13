@@ -406,6 +406,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 896d202400973e04ca6f2145d9c2d1c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  initCount: 50
   testType: 2
   views:
   - {fileID: 11400000, guid: 7f7e4e3b201b0d74db5a36a5e2c7cc74, type: 2}

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UniVue.Model;
 using UniVue;
@@ -7,14 +5,18 @@ using UniVue.Utils;
 
 namespace UniVueTest
 {
+    [DefaultExecutionOrder(-2000)]
     public class QueryOptimizeTest : MonoBehaviour
     {
         public CustomGridView _vGrid;
 
-        private void Start()
+        private void Awake()
         {
             Vue.Initialize(VueConfig.Create());
+        }
 
+        private void Start()
+        {
             ObservableList<AtomModel<int>>  data = new ObservableList<AtomModel<int>>(2000);
             for (int i = 0; i < 2000; i++)
             {

@@ -15,6 +15,7 @@ namespace UniVueTest
 {
     public class ListViewTest : MonoBehaviour
     {
+        public int initCount = 20;
         public ViewTestType testType;
 
         public ListViewConfig[] views;
@@ -43,9 +44,9 @@ namespace UniVueTest
         {
             Vue.Initialize(VueConfig.Create());
 
-            _vData = new List<AtomModel<int>>(200);
-            _hData = new List<AtomModel<int>>(200);
-            for (int i = 0; i < 200; i++)
+            _vData = new List<AtomModel<int>>(initCount);
+            _hData = new List<AtomModel<int>>(initCount);
+            for (int i = 0; i < initCount; i++)
             {
                 _hData.Add(AtomModelBuilder.Build("Item", "Index", i));
                 _vData.Add(AtomModelBuilder.Build("Item", "Index", i));

@@ -14,19 +14,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   order: 0
   viewName: Horizontal_ListView
-  level: 3
+  level: 4
   viewObjectPrefab: {fileID: 8398815805904559523, guid: 8e5ef8c65b016bc41bf1040fc20c1539, type: 3}
-  transientTime: -1
+  parent: 
   initState: 0
-  forbid: 0
+  transientTime: -1
   _dragInputConfigs: []
   openTween: 0
   openDuration: -1
   closeTween: 0
   closeDuration: -1
-  isMaster: 0
-  master: 
-  root: 
   nestedViews: []
   _scrollDir: 1
   _loop: 0

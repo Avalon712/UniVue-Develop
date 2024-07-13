@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -119,6 +120,11 @@ namespace UniVueTest
         [AutoNotify] private int _HP;
         [AutoNotify] private Tag _tag;
         [AutoNotify] private Profession _profession;
+        [AutoNotify] private List<int> _ints;
+        [AutoNotify] private List<float> _floats;
+        [AutoNotify] private List<string> _strings;
+        [AutoNotify] private List<Profession> _professions;
+        [AutoNotify] private List<Tag> _tags;
     }
 
     public enum Profession
