@@ -15,7 +15,7 @@ namespace UniVueTest
 
         protected override void Awake()
         {
-            Vue.Initialize(VueConfig.Create());
+            Vue.Initialize(VueConfig.Default);
             base.Awake();
         }
 

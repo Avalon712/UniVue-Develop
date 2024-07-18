@@ -13,7 +13,7 @@ namespace UniVueTest
          
         private void Awake()
         {
-            Vue.Initialize(VueConfig.Create());
+            Vue.Initialize(VueConfig.Default);
         }
 
         private void Start()

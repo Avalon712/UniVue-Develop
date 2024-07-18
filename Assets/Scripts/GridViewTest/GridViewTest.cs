@@ -36,7 +36,7 @@ namespace UniVueTest
 
         private void Awake()
         {
-            Vue.Initialize(VueConfig.Create());
+            Vue.Initialize(VueConfig.Default);
 
             _data = new List<AtomModel<int>>(1000);
             for (int i = 0; i < 1000; i++)

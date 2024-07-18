@@ -41,7 +41,7 @@ namespace UniVueTest
 
         private void Awake()
         {
-            Vue.Initialize(VueConfig.Create());
+            Vue.Initialize(VueConfig.Default);
 
             _observer = new((int)(initDataCount * 1.2f));
             for (int i = 0; i < initDataCount; i++)

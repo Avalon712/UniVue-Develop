@@ -9,6 +9,11 @@ namespace UniVueTest
 {
     public class CodeUnitTest : MonoBehaviour
     {
+        [ContextMenu("Substring")]
+        private void Substring()
+        {
+            Debug.Log(("Test".Substring(0, 0) == null));
+        }
 
         [ContextMenu("RegexMatchTest")]
         private void RegexMatchTest()
