@@ -283,7 +283,6 @@ MonoBehaviour:
   _draggable: 1
   _realtimeCalculateLimitArea: 0
   _limitArea: {fileID: 1920908996}
-  _mover: {fileID: 858988030}
 --- !u!1 &1370853697
 GameObject:
   m_ObjectHideFlags: 0
@@ -561,7 +560,6 @@ MonoBehaviour:
   _draggable: 1
   _realtimeCalculateLimitArea: 1
   _limitArea: {fileID: 858988030}
-  _mover: {fileID: 2135097604}
 --- !u!222 &2135097607
 CanvasRenderer:
   m_ObjectHideFlags: 0
